@@ -1,5 +1,4 @@
-# FCC Visualize Data with a Bar Chart
-## using D3.js
+# FCC Visualize Data with a Bar Chart (using D3.js)
 
 This a project using D3.js to create a Bar Chart of the US Gross Domestic Product by quarter, over time
 
