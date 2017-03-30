@@ -1,3 +1,16 @@
 body {
 	background-color: lightblue;
 }
+
+.bar-chart-title {
+	text-align: center;
+	font-size: 24px;
+}
+
+.bar-chart {
+	background-color: white;
+}
+
+.bar {
+	fill: blue;
+}
