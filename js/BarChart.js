@@ -9,9 +9,9 @@ d3.json(dataUrl, function(json) {
 	d3.select(".bar-chart-description").text(dataDescription);
 
 	d3.select(".bar-chart")
-		.attr("width", "100%")
-		.attr("height", "100%")
-		.attr("viewBox", "0 0 500 500");
+		.attr("width", "400")
+		.attr("height", "400")
+		.attr("viewBox", "0 0 400 500");
 
 	d3.select(".bar-chart")
 		.selectAll("rect")
@@ -19,10 +19,10 @@ d3.json(dataUrl, function(json) {
 		.enter()
 		.append("rect")
 		.attr("class", "bar")
-			.attr("height", function(d, i) { return d[1]; })
-			.attr("width", "100")
+			.attr("height", function(d, i) { return d[1] / 40; })
+			.attr("width", "150")
 			.attr("x", function(d, i) { return i; })
-			.attr("y", "50");
+			.attr("y", function(d,i) { return 500 - (d[1] / 40); });
 
 });
 

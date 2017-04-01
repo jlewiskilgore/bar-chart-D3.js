@@ -9,6 +9,8 @@ body {
 
 .bar-chart {
 	background-color: white;
+	display: block;
+	margin: auto;
 }
 
 .bar {
