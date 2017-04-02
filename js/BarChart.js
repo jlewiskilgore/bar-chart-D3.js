@@ -5,17 +5,21 @@ d3.json(dataUrl, function(json) {
 	var dataSet = json.data;
 	var dataDescription = json.description;
 	var height = 500;
-	var width = 400;
+	var width = 500;
 
 	d3.select(".bar-chart-title").text("Bar Chart of US Gross Domestic Project");
 	d3.select(".bar-chart-description").text(dataDescription);
 
 	var svg = d3.select(".bar-chart")
-		.attr("width", height)
-		.attr("height", width)
-		.attr("viewBox", "0 0 400 550");
+		.attr("width", width)
+		.attr("height", height)
+		.attr("viewBox", "-75 0 600 550");
 
-	var barScale = d3.scaleLinear().domain([1900, 2020]).range([0, 100000]);
+	var firstDate = new Date(dataSet[0][0])
+	var lastDate = new Date(dataSet[dataSet.length - 1][0]);
+
+	var xScale = d3.scaleTime()
+		.domain([firstDate, lastDate]).range([0, 500]);
 
 	var rects = svg.selectAll("rect")
 		.data(dataSet)
@@ -28,15 +32,16 @@ d3.json(dataUrl, function(json) {
 			.attr("y", function(d,i) { return height - (d[1] / 40); });
 
 	var xAxis = d3.axisBottom()
-		.scale(barScale);
+		.scale(xScale)
+		.ticks(10);
 
 	svg.append('g')
-		.attr("transform", "translate(-50," + 500 + ")")
+		.attr("transform", "translate(0," + 500 + ")")
 		.call(xAxis);
 
 	svg.append('text')
 		.style("text-anchor", "middle")
-		.attr("transform", "translate(-50," + 540 + ")")
+		.attr("transform", "translate(0," + 540 + ")")
 		.text("Date");
 
 });
