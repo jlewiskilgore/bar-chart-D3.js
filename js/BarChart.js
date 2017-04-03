@@ -15,12 +15,6 @@ d3.json(dataUrl, function(json) {
 		.attr("height", height)
 		.attr("viewBox", "-75 0 600 550");
 
-	var firstDate = new Date(dataSet[0][0])
-	var lastDate = new Date(dataSet[dataSet.length - 1][0]);
-
-	var xScale = d3.scaleTime()
-		.domain([firstDate, lastDate]).range([0, 500]);
-
 	var rects = svg.selectAll("rect")
 		.data(dataSet)
 		.enter()
@@ -30,6 +24,13 @@ d3.json(dataUrl, function(json) {
 			.attr("width", "5")
 			.attr("x", function(d, i) { return (i * 2) - 50; })
 			.attr("y", function(d,i) { return height - (d[1] / 40); });
+
+	// X AXIS
+	var firstDate = new Date(dataSet[0][0])
+	var lastDate = new Date(dataSet[dataSet.length - 1][0]);
+
+	var xScale = d3.scaleTime()
+		.domain([firstDate, lastDate]).range([0, 500]);
 
 	var xAxis = d3.axisBottom()
 		.scale(xScale)
@@ -43,6 +44,23 @@ d3.json(dataUrl, function(json) {
 		.style("text-anchor", "middle")
 		.attr("transform", "translate(0," + 540 + ")")
 		.text("Date");
+
+	// Y AXIS
+	var firstGDP = dataSet[0][1];
+	var lastGDP = dataSet[dataSet.length - 1][1];
+	console.log(firstGDP);
+	console.log(lastGDP);
+
+	var yScale = d3.scaleLinear()
+		.domain([firstGDP, lastGDP]).range([500, 0]);
+
+	var yAxis = d3.axisLeft()
+		.scale(yScale)
+		.ticks(5);
+
+	svg.append('g')
+		.attr("transform", "translate(0," + 0 + ")")
+		.call(yAxis);
 
 });
 
