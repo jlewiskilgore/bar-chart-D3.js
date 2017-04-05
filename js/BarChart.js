@@ -10,6 +10,10 @@ d3.json(dataUrl, function(json) {
 	d3.select(".bar-chart-title").text("Bar Chart of US Gross Domestic Project");
 	d3.select(".bar-chart-description").text(dataDescription);
 
+	var div = d3.select(".bar-chart-title").append("div")
+		.attr("class", "tooltip")
+		.style("opacity", 0);
+
 	var svg = d3.select(".bar-chart")
 		.attr("width", width)
 		.attr("height", height)
@@ -23,7 +27,21 @@ d3.json(dataUrl, function(json) {
 			.attr("height", function(d, i) { return d[1] / 40; })
 			.attr("width", "4")
 			.attr("x", function(d, i) { return (i * 2); })
-			.attr("y", function(d,i) { return height - (d[1] / 40); });
+			.attr("y", function(d,i) { return height - (d[1] / 40); })
+			.on("mouseover", function(d) {
+				div.transition()
+					.duration(200)
+					.style("opacity", 0.9);
+				div.html("Date: " + d[0] + "<br/>"
+						+ "GDP: $" + d[1] + "<br/>")
+					.style("left", (d3.event.pageX) + "px")
+					.style("top", (d3.event.pageY) + "px");
+			})
+			.on("mouseout", function(d) {
+				div.transition()
+					.duration(500)
+					.style("opacity", 0);
+			});
 
 	// X AXIS
 	var firstDate = new Date(dataSet[0][0])
@@ -46,11 +64,11 @@ d3.json(dataUrl, function(json) {
 		.text("Year");
 
 	// Y AXIS
-	var firstGDP = dataSet[0][1];
-	var lastGDP = dataSet[dataSet.length - 1][1];
+	var minGDP = dataSet[0][1];
+	var maxGDP = dataSet[dataSet.length - 1][1];
 
 	var yScale = d3.scaleLinear()
-		.domain([firstGDP, lastGDP]).range([500, 0]);
+		.domain([minGDP, maxGDP]).range([500, 0]);
 
 	var yAxis = d3.axisLeft()
 		.scale(yScale)
